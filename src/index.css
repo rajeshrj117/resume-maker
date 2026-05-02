@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+/* Critical: Ensure A4 dimensions render exactly */
+#resume-document {
+  width: 210mm !important;
+  min-height: 297mm !important;
+  background: white;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Print styles */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
+
+  #resume-document {
+    margin: 0 !important;
+    padding: inherit;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+  }
+}
+
+/* Smooth scroll for preview area */
+.overflow-auto {
+  scroll-behavior: smooth;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
