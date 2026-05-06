@@ -6,7 +6,7 @@ export interface PersonalInfo {
   linkedin: string;
   website: string;
   jobTitle: string;
-  photo: string; // Base64 photo
+  photo: string;
 }
 
 export interface Experience {
@@ -58,7 +58,7 @@ export interface ResumeData {
   certifications: Certification[];
 }
 
-export type TemplateId = number; // 0-19
+export type TemplateId = number;
 
 export interface ThemeColor {
   name: string;
@@ -94,7 +94,28 @@ export const FONT_FAMILIES = [
 ];
 
 export const FONT_SIZES = {
-  compact: { base: 9.5, h1: 24, h2: 11, h3: 11, body: 9.5, small: 8.5 },
-  normal: { base: 11, h1: 28, h2: 13, h3: 12, body: 11, small: 10 },
-  large: { base: 12, h1: 32, h2: 14, h3: 13, body: 12, small: 11 },
+  compact: {
+    base: 9.5,
+    h1: 24,
+    h2: 11,
+    h3: 11,
+    body: 9.5,
+    small: 8.5,
+  },
+  normal: {
+    base: 11,
+    h1: 28,
+    h2: 13,
+    h3: 12,
+    body: 11,
+    small: 10,
+  },
+  large: {
+    base: 12,
+    h1: 32,
+    h2: 14,
+    h3: 13,
+    body: 12,
+    small: 11,
+  },
 };
