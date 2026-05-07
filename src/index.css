@@ -4,9 +4,38 @@
 #resume-document {
   width: 210mm !important;
   min-height: 297mm !important;
+  height: auto !important;
   background: white;
   box-sizing: border-box;
   position: relative;
+  overflow: visible;
+}
+
+#resume-document *,
+#resume-document *::before,
+#resume-document *::after {
+  box-sizing: border-box;
+}
+
+#resume-document section {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+#resume-document aside,
+#resume-document main {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+#resume-document aside {
+  overflow: hidden;
+}
+
+.resume-skill-tag {
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 /* Print styles */
@@ -29,10 +58,34 @@
   }
 
   #resume-document {
+    width: 210mm !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
     margin: 0 !important;
     padding: inherit;
     transform: none !important;
     box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  #resume-document section,
+  #resume-document .resume-skill-tag {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  #resume-document :empty {
+    display: none !important;
+  }
+
+  #resume-document .page-break,
+  #resume-document .break-before,
+  #resume-document .break-after {
+    break-before: auto !important;
+    break-after: auto !important;
+    page-break-before: auto !important;
+    page-break-after: auto !important;
   }
 
   main {

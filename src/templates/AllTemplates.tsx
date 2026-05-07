@@ -69,17 +69,40 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
   const ff = fontSettings.family;
 
   const tagStyle = (bg: string, color: string): React.CSSProperties => ({
-    display: 'inline-block',
-    padding: '2px 7px',
-    margin: '1px 2px 1px 0',
+    display: 'inline-flex',
+    alignItems: 'center',
+    maxWidth: '100%',
+    padding: '6px 5px 12px',
+    margin: 0,
     borderRadius: '3px',
     fontSize: `${F.small}px`,
     backgroundColor: bg,
     color: color,
     fontWeight: 500,
     lineHeight: 1.4,
-    whiteSpace: 'nowrap' as const,
+    whiteSpace: 'normal' as const,
+    overflowWrap: 'anywhere' as const,
+    wordBreak: 'break-word' as const,
+    boxSizing: 'border-box',
+    breakInside: 'avoid' as const,
+    pageBreakInside: 'avoid' as const,
   });
+
+  const skillListStyle: React.CSSProperties = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    gap: '4px 6px',
+    maxWidth: '100%',
+    overflow: 'hidden',
+  };
+
+  const sidebarSkillListStyle: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+    gap: '5px',
+    maxWidth: '100%',
+  };
 
   const Wrapper: React.FC<{
     children: React.ReactNode;
@@ -87,17 +110,19 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
   }> = ({ children, style }) => (
     <div
       id="resume-document"
+      className="resume-document"
       style={{
         width: '210mm',
         minHeight: '297mm',
-        maxHeight: '297mm',
+        height: 'auto',
         margin: '0 auto',
         backgroundColor: 'white',
         boxSizing: 'border-box',
         fontFamily: ff,
         color: '#1f2937',
         fontSize: `${F.body}px`,
-        overflow: 'hidden',
+        overflow: 'visible',
+        overflowWrap: 'anywhere',
         ...style,
       }}
     >
@@ -325,9 +350,9 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
                     >
                       {group.category}
                     </h3>
-                    <div>
+                    <div style={skillListStyle}>
                       {group.items.map((s, i) => (
-                        <span key={i} style={tagStyle(C.light, C.dark)}>
+                        <span key={i} className="resume-skill-tag" style={tagStyle(C.light, C.dark)}>
                           {s}
                         </span>
                       ))}
@@ -618,11 +643,14 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
       <Wrapper style={{ padding: 0, display: 'flex' }}>
         <aside
           style={{
-            width: '34%',
+            width: '32%',
             backgroundColor: C.dark,
             color: 'white',
-            padding: '24px 18px',
+            padding: '22px 16px',
             boxSizing: 'border-box',
+            overflow: 'hidden',
+            overflowWrap: 'anywhere',
+            wordBreak: 'break-word',
           }}
         >
           <div style={{ textAlign: 'center', marginBottom: '14px' }}>
@@ -637,10 +665,11 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
             style={{
               fontSize: `${F.h1 - 6}px`,
               fontWeight: 800,
-              margin: '0 0 3px',
+              margin: '0 0 4px',
               textAlign: 'center',
               letterSpacing: '-0.02em',
-              lineHeight: 1.1,
+              lineHeight: 1.12,
+              overflowWrap: 'anywhere',
             }}
           >
             {p.fullName || 'Your Name'}
@@ -652,7 +681,8 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
               color: C.light,
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              marginBottom: '14px',
+              lineHeight: 1.35,
+              margin: '0 0 14px',
             }}
           >
             {p.jobTitle || 'Job Title'}
@@ -677,13 +707,13 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
             >
               Contact
             </h3>
-            <div style={{ fontSize: `${F.small}px`, lineHeight: 1.7, opacity: 0.95 }}>
+            <div style={{ fontSize: `${F.small}px`, lineHeight: 1.55, opacity: 0.95 }}>
               {p.email && (
-                <div style={{ wordBreak: 'break-all', marginBottom: '2px' }}>{p.email}</div>
+                <div style={{ overflowWrap: 'anywhere', marginBottom: '4px' }}>{p.email}</div>
               )}
-              {p.phone && <div style={{ marginBottom: '2px' }}>{p.phone}</div>}
-              {p.location && <div style={{ marginBottom: '2px' }}>{p.location}</div>}
-              {p.linkedin && <div>{p.linkedin}</div>}
+              {p.phone && <div style={{ marginBottom: '4px' }}>{p.phone}</div>}
+              {p.location && <div style={{ marginBottom: '4px' }}>{p.location}</div>}
+              {p.linkedin && <div style={{ overflowWrap: 'anywhere' }}>{p.linkedin}</div>}
             </div>
           </div>
 
@@ -703,9 +733,22 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
                   >
                     {g.category}
                   </h3>
-                  <div>
+                  <div style={sidebarSkillListStyle}>
                     {g.items.map((s, i) => (
-                      <span key={i} style={tagStyle('rgba(255,255,255,0.15)', 'white')}>
+                      <span
+                        key={i}
+                        className="resume-skill-tag"
+                        style={{
+                          ...tagStyle('rgba(255,255,255,0.15)', 'white'),
+                          display: 'flex',
+                          justifyContent: 'center',
+                          width: '100%',
+                          minHeight: '18px',
+                          padding: '6px 5px 12px 5px',
+                          textAlign: 'center',
+                          fontSize: `${Math.max(F.small - 1, 8)}px`,
+                        }}
+                      >
                         {s}
                       </span>
                     ))}
@@ -741,7 +784,7 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
         </aside>
 
         <main
-          style={{ width: '66%', padding: '24px 22px', boxSizing: 'border-box' }}
+          style={{ width: '68%', padding: '24px 24px 24px 26px', boxSizing: 'border-box' }}
         >
           {summary && (
             <section
@@ -791,10 +834,12 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
                 <div
                   key={exp.id}
                   style={{
-                    marginBottom: '10px',
-                    paddingLeft: '12px',
+                    marginBottom: '12px',
+                    paddingLeft: '14px',
                     borderLeft: `2px solid ${C.light}`,
                     position: 'relative',
+                    breakInside: 'avoid',
+                    pageBreakInside: 'avoid',
                   }}
                 >
                   <div
@@ -808,18 +853,38 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
                       backgroundColor: C.primary,
                     }}
                   />
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'minmax(0, 1fr) 52px',
+                      columnGap: '12px',
+                      alignItems: 'start',
+                    }}
+                  >
                     <h3
                       style={{
                         fontSize: `${F.h3}px`,
                         fontWeight: 700,
                         margin: 0,
                         color: '#0f172a',
+                        lineHeight: 1.3,
+                        overflowWrap: 'anywhere',
                       }}
                     >
                       {exp.position}
                     </h3>
-                    <span style={{ ...tagStyle(C.light, C.dark), fontWeight: 600 }}>
+                    <span
+                      className="resume-skill-tag"
+                      style={{
+                        ...tagStyle(C.light, C.dark),
+                        justifyContent: 'center',
+                        width: '52px',
+                        padding: '5px 4px',
+                        textAlign: 'center',
+                        fontWeight: 700,
+                        lineHeight: 1.25,
+                      }}
+                    >
                       {exp.duration}
                     </span>
                   </div>
@@ -828,7 +893,9 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
                       fontSize: `${F.small}px`,
                       color: C.primary,
                       fontWeight: 600,
-                      margin: '1px 0 4px',
+                      margin: '2px 64px 5px 0',
+                      lineHeight: 1.35,
+                      overflowWrap: 'anywhere',
                     }}
                   >
                     {exp.company}
@@ -837,10 +904,10 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
                   <ul
                     style={{
                       margin: 0,
-                      paddingLeft: '12px',
+                      paddingLeft: '14px',
                       fontSize: `${F.body}px`,
                       color: '#475569',
-                      lineHeight: 1.5,
+                      lineHeight: 1.48,
                     }}
                   >
                     {exp.highlights
@@ -1230,9 +1297,9 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
                   >
                     {g.category}
                   </h3>
-                  <div>
+                  <div style={skillListStyle}>
                     {g.items.map((s, i) => (
-                      <span key={i} style={tagStyle('#1e293b', '#e2e8f0')}>
+                      <span key={i} className="resume-skill-tag" style={tagStyle('#1e293b', '#e2e8f0')}>
                         {s}
                       </span>
                     ))}
@@ -1409,9 +1476,9 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
                   <p style={{ fontSize: `${F.body}px`, color: '#475569', margin: '1px 0 3px' }}>
                     {pr.description}
                   </p>
-                  <div>
+                  <div style={skillListStyle}>
                     {pr.technologies.map((t, i) => (
-                      <span key={i} style={tagStyle(C.light, C.dark)}>
+                      <span key={i} className="resume-skill-tag" style={tagStyle(C.light, C.dark)}>
                         {t}
                       </span>
                     ))}
@@ -1595,9 +1662,9 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
                   <h2 style={{ fontSize: `${F.h2}px`, color: C.primary, marginBottom: '5px' }}>
                     {`/* ${g.category} */`}
                   </h2>
-                  <div>
+                  <div style={skillListStyle}>
                     {g.items.map((s, i) => (
-                      <span key={i} style={tagStyle('#e5e7eb', '#1f2937')}>
+                      <span key={i} className="resume-skill-tag" style={tagStyle('#e5e7eb', '#1f2937')}>
                         {s}
                       </span>
                     ))}
@@ -1750,19 +1817,37 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
               >
                 KEY SKILLS
               </h2>
-              <ul style={{ listStyle: 'disc', paddingLeft: '20px', margin: 0 }}>
+              <div
+                style={{
+                  ...skillListStyle,
+                  gap: '6px',
+                }}
+              >
                 {skills
-                  .flatMap(g => g.items)
+                  .flatMap((g) => g.items)
                   .slice(0, 8)
                   .map((s, i) => (
-                    <li
+                    <span
                       key={i}
-                      style={{ fontSize: `${F.body}px`, marginBottom: '8px', lineHeight: 1.4 }}
+                      className="resume-skill-tag"
+                      style={{
+                        padding: '4px 8px',
+                        background: 'rgba(255,255,255,0.15)',
+                        borderRadius: '4px',
+                        fontSize: `${F.small}px`,
+                        color: 'white',
+                        lineHeight: 1.4,
+                        whiteSpace: 'normal',
+                        overflowWrap: 'anywhere',
+                        wordBreak: 'break-word',
+                        breakInside: 'avoid',
+                        pageBreakInside: 'avoid',
+                      }}
                     >
                       {s}
-                    </li>
+                    </span>
                   ))}
-              </ul>
+              </div>
             </>
           )}
         </aside>
@@ -3295,10 +3380,11 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
                       >
                         {g.category}
                       </h4>
-                      <div>
+                      <div style={skillListStyle}>
                         {g.items.map((s, i) => (
                           <span
                             key={i}
+                            className="resume-skill-tag"
                             style={tagStyle(
                               isDark ? '#334155' : C.light,
                               isDark ? '#e2e8f0' : C.dark

@@ -177,10 +177,15 @@ Return one improved bullet sentence.`;
           backgroundColor: '#ffffff',
         },
         jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const },
-        pagebreak: { mode: 'avoid-all' as any },
+        pagebreak: {
+          mode: ['css', 'legacy'] as any,
+          avoid: ['.resume-skill-tag', '#resume-document section'],
+        },
       };
 
-      await html2pdf().set(opt).from(element).save();
+      // FIXED: The element is loaded into html2pdf first via `.from()`, and configuration is set second via `.set()`. 
+      // Chaining this sequence prevents html2pdf.js from triggering duplicate or empty page downloads.
+      await html2pdf().from(element).set(opt).save();
     } catch (e) {
       console.error('PDF Error:', e);
       alert('PDF download had an issue. Please try again.');
