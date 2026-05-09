@@ -614,24 +614,9 @@ const ResumeParser: React.FC<Props> = ({ onDataExtracted, onClose }) => {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-semibold text-slate-700">Extracted / Manual Resume Text</label>
-
-        <textarea
-          value={rawText}
-          onChange={e => setRawText(e.target.value)}
-          placeholder="Paste resume text here if upload extraction is not perfect..."
-          className="w-full min-h-[180px] rounded-xl border border-slate-200 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-        />
-
+    
         <div className="flex gap-3">
-          <button
-            type="button"
-            onClick={handleManualParse}
-            disabled={loading}
-            className="px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50"
-          >
-            Parse Text
-          </button>
+    
 
           <button
             type="button"

@@ -6,6 +6,7 @@ interface Props {
   theme: ThemeColor;
   templateId: number;
   fontSettings: FontSettings;
+  isDownloading?: boolean;
 }
 
 const PhotoCircle: React.FC<{
@@ -53,7 +54,7 @@ const PhotoCircle: React.FC<{
   );
 };
 
-const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }) => {
+const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings,isDownloading }) => {
   const {
     personalInfo: p,
     summary,
@@ -113,7 +114,7 @@ const AllTemplates: React.FC<Props> = ({ data, theme, templateId, fontSettings }
       className="resume-document"
       style={{
         width: '210mm',
-        minHeight: '297mm',
+        minHeight: isDownloading ? '297mm' : 'fit-content',
         height: 'auto',
         margin: '0 auto',
         backgroundColor: 'white',

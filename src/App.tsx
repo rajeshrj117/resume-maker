@@ -163,29 +163,37 @@ Return one improved bullet sentence.`;
       const { default: html2pdf } = await import('html2pdf.js');
       const element = document.getElementById('resume-document');
       if (!element) throw new Error('Resume element not found');
-
+  
+      // 🔥 REMOVE preview scaling BEFORE export
+      const wrapper = element.parentElement;
+      if (wrapper) wrapper.style.transform = 'scale(1)';
+  
       const cleanName = (resumeData.personalInfo.fullName || 'My').replace(/[^a-zA-Z0-9]/g, '_');
-
-      const opt = {
-        margin: 0,
-        filename: `${cleanName}_Resume.pdf`,
-        image: { type: 'jpeg' as const, quality: 0.98 },
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          logging: false,
-          backgroundColor: '#ffffff',
-        },
-        jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const },
-        pagebreak: {
-          mode: ['css', 'legacy'] as any,
-          avoid: ['.resume-skill-tag', '#resume-document section'],
-        },
-      };
-
-      // FIXED: The element is loaded into html2pdf first via `.from()`, and configuration is set second via `.set()`. 
-      // Chaining this sequence prevents html2pdf.js from triggering duplicate or empty page downloads.
-      await html2pdf().from(element).set(opt).save();
+  
+      await html2pdf()
+        .from(element)
+        .set({
+          margin: 0,
+          filename: `${cleanName}_Resume.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: {
+            scale: 1.5,   // 🔥 CHANGE 2 → 1.5
+            useCORS: true,
+            backgroundColor: '#ffffff',
+          },
+          jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait',
+          },
+          pagebreak: {
+            mode: ['avoid-all'], // 🔥 IMPORTANT
+          },
+        })
+        .save();
+  
+      // restore preview scale
+      if (wrapper) wrapper.style.transform = '';
     } catch (e) {
       console.error('PDF Error:', e);
       alert('PDF download had an issue. Please try again.');
@@ -206,9 +214,7 @@ Return one improved bullet sentence.`;
             <div className="bg-indigo-600 text-white p-2 rounded-xl shadow-md shadow-indigo-200">
               <Sparkles size={22} />
             </div>
-            <span className="text-xl font-black tracking-tight text-slate-900">
-              AI Resume <span className="text-indigo-600">Forge</span>
-            </span>
+        
           </div>
 
           <div className="flex items-center gap-2">
@@ -216,15 +222,15 @@ Return one improved bullet sentence.`;
               onClick={() => setShowParserModal(true)}
               className="flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-5 py-2 rounded-xl font-semibold text-sm"
             >
-              Parse Old Resume (PDF/DOCX)
+              Upload Old Resume
             </button>
-
+<div className='hidden lg:block'>
             <button
               onClick={resetForm}
-              className="flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 px-3 py-2 rounded-lg border border-slate-200"
+              className="flex  items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 px-3 py-2 rounded-lg border border-slate-200"
             >
               <RefreshCw size={16} /> Reset
-            </button>
+            </button></div>
 
             <button
               onClick={downloadPDF}
@@ -232,7 +238,7 @@ Return one improved bullet sentence.`;
               className="flex items-center gap-1.5 text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 px-3 py-2 rounded-lg shadow-md disabled:opacity-50"
             >
               {isDownloading ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
-              Direct PDF
+              Download PDF
             </button>
           </div>
         </div>
@@ -261,12 +267,13 @@ Return one improved bullet sentence.`;
         </div>
 
         <div className="xl:col-span-7 bg-slate-200/50 rounded-2xl p-3 border border-slate-200 overflow-auto max-h-[calc(100vh-100px)] xl:sticky xl:top-20 print:bg-transparent print:p-0 print:max-h-none print:static">
-          <div className="origin-top scale-[0.65] sm:scale-[0.75] lg:scale-[0.85] xl:scale-[0.7] 2xl:scale-[0.85] mx-auto w-fit print:scale-100">
+        <div className="preview-wrapper origin-top mx-auto w-fit print:scale-100">
             <AllTemplates
               data={resumeData}
               theme={selectedTheme}
               templateId={selectedTemplate}
               fontSettings={fontSettings}
+              isDownloading={isDownloading}
             />
           </div>
         </div>
