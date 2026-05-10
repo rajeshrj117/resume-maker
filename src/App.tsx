@@ -250,7 +250,7 @@ Return one improved bullet sentence.`;
   <JobPicker onApplyProfile={handleApplyProfile} />
 </div>
 
-<div className="order-3 xl:order-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div className="order-5 xl:order-2 grid grid-cols-1 md:grid-cols-2 gap-4">
             <PhotoUpload
               photo={resumeData.personalInfo.photo}
               onChange={photo =>
@@ -263,7 +263,7 @@ Return one improved bullet sentence.`;
             <ThemePicker selected={selectedTheme} onSelect={setSelectedTheme} />
           </div>
 
-          <div className="order-5 xl:order-3">
+          <div className="order-3 xl:order-3">
           <FontPicker settings={fontSettings} onChange={setFontSettings} />
         </div>
           <div className="order-4 xl:order-4">
