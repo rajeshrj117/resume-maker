@@ -245,10 +245,12 @@ Return one improved bullet sentence.`;
       </header>
 
       <main className="flex-1 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full grid grid-cols-1 xl:grid-cols-12 gap-6 print:p-0 print:block">
-        <div className="xl:col-span-5 space-y-4 print:hidden">
-          <JobPicker onApplyProfile={handleApplyProfile} />
+      <div className="xl:col-span-5 flex flex-col gap-4 print:hidden">
+      <div className="order-1">
+  <JobPicker onApplyProfile={handleApplyProfile} />
+</div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div className="order-3 xl:order-2 grid grid-cols-1 md:grid-cols-2 gap-4">
             <PhotoUpload
               photo={resumeData.personalInfo.photo}
               onChange={photo =>
@@ -261,9 +263,22 @@ Return one improved bullet sentence.`;
             <ThemePicker selected={selectedTheme} onSelect={setSelectedTheme} />
           </div>
 
+          <div className="order-5 xl:order-3">
           <FontPicker settings={fontSettings} onChange={setFontSettings} />
-          <TemplatePicker selectedId={selectedTemplate} onSelect={setSelectedTemplate} />
-          <ResumeForm data={resumeData} setData={setResumeData} onEnhanceBullet={handleEnhanceWithAI} />
+        </div>
+          <div className="order-4 xl:order-4">
+          <TemplatePicker
+            selectedId={selectedTemplate}
+            onSelect={setSelectedTemplate}
+          />
+        </div>
+          <div className="order-2 xl:order-5">
+          <ResumeForm
+            data={resumeData}
+            setData={setResumeData}
+            onEnhanceBullet={handleEnhanceWithAI}
+          />
+        </div>
         </div>
 
         <div className="xl:col-span-7 bg-slate-200/50 rounded-2xl p-3 border border-slate-200 overflow-auto max-h-[calc(100vh-100px)] xl:sticky xl:top-20 print:bg-transparent print:p-0 print:max-h-none print:static">

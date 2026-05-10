@@ -23,8 +23,8 @@ const PhotoUpload: React.FC<Props> = ({ photo, onChange }) => {
         <Camera className="text-indigo-500" size={16} />
         <h3 className="text-xs font-bold text-slate-800 uppercase tracking-widest">Profile Photo</h3>
       </div>
-      <div className="flex items-center gap-3">
-        <div className="w-16 h-16 rounded-full overflow-hidden bg-slate-100 flex items-center justify-center flex-shrink-0 border-2 border-slate-200">
+      <div onClick={() => inputRef.current?.click()} className="flex items-center gap-3">
+        <div      className="w-16 h-16 rounded-full overflow-hidden bg-slate-100 flex items-center justify-center flex-shrink-0 border-2 border-slate-200">
           {photo ? <img src={photo} alt="Profile" className="w-full h-full object-cover" /> : <User className="text-slate-400" size={28} />}
         </div>
         <div className="flex-1 flex flex-col gap-2">
