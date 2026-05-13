@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/* App */
+.app {
+  padding: 20px;
+  background: #f3f4f6;
+}
+
+/* Button */
+.download-btn {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* =====================================
+   ✅ A4 FIXED SINGLE PAGE
+   ===================================== */
+#resume-document {
+  width: 210mm;
+  height: 297mm;
+  max-height: 297mm;
+  background: white;
+  overflow: hidden; /* 🔥 prevents 2nd page */
+  box-sizing: border-box;
+  margin: auto;
+  padding: 20mm;
+}
+
+/* Safety shrink during export */
+#resume-document.pdf-export {
+  height: 290mm; /* 🔥 avoids edge overflow */
+}
+
+/* Content */
+.content {
+  font-family: Arial, sans-serif;
+  color: #111;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+p {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Skills */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.skills span {
+  background: #e5e7eb;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+/* Prevent breaking */
+section {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Remove overflow risks */
+* {
+  box-sizing: border-box;
+}
+
+/* A4 strict */
+#resume-document {
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* preview scaling ONLY on screen */
+.preview-wrapper {
+  transform: scale(0.75);
+  transform-origin: top center;
+}
+
+/* REMOVE scaling during PDF */
+@media print {
+  .preview-wrapper {
+    transform: scale(1) !important;
+  }
+}
